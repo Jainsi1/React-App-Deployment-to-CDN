@@ -1,0 +1,36 @@
+on: [push]
+
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: checkout
+      uses: actions/checkout@v1
+    
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16.10.0
+          
+    - name: install React App
+      run: npm install
+      
+    - name: build
+      run: npm run build
+      
+    - name: Upload to blob storage
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+            az storage blob upload-batch --account-name staticstoragee --auth-mode key -d '$web' -s ./build
+    - name: Purge CDN endpoint
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+           az cdn endpoint purge --content-paths  "/*" --profile-name "reactappdeploy" --name "reactapp" --resource-group "testing"
