@@ -6,12 +6,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
-#     - name: checkout
-#       uses: actions/checkout@v1
+    - name: checkout
+      uses: actions/checkout@v1
     
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: Azure CLI script
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+            az account show
         
     - name: Use Node.js
       uses: actions/setup-node@v1
