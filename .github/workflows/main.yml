@@ -37,10 +37,10 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-            az storage blob upload-batch --account-name staticstoragee --auth-mode key -d '$web' -s ./build --overwrite 'True'
+            az storage blob upload-batch --account-name randommmmmm --auth-mode key -d '$web' -s ./build --overwrite 'True'
             
     - name: Purge CDN endpoint
       uses: azure/CLI@v1
       with:
         inlineScript: |
-           az cdn endpoint purge --content-paths  "/*" --profile-name "reactappdeploy" --name "reactapp" --resource-group "testing"
+           az cdn endpoint purge --content-paths  "/*" --profile-name "exampleCdnProfile" --name "randommm" --resource-group "example"
